@@ -59,3 +59,8 @@ mkdir -p privatedb/hornet-4
 if [[ "$OSTYPE" != "darwin"* ]]; then
   chown -R 65532:65532 privatedb
 fi
+
+mkdir data
+if [[ "$OSTYPE" != "darwin"* ]]; then
+  chown -R 65532:65532 data
+fi

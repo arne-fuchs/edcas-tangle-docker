@@ -40,7 +40,7 @@ services:
     volumes:
       - ./${HORNET_CONFIG_FILE:-config.json}:/app/config.json:ro
       - ./peering.json:/app/peering.json
-      - ./public:/public/data
+      - ./data:/app/data
     command:
       - "-c"
       - "config.json"
@@ -130,7 +130,7 @@ services:
       - GF_SERVER_DOMAIN=${NODE_HOST:-localhost}
       - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/node_dashboard.json
     volumes:
-      - ./public/grafana:/var/lib/grafana
+      - ./data/grafana:/var/lib/grafana
       - ./assets/grafana/:/etc/grafana/provisioning/
     profiles:
       - monitoring
@@ -149,7 +149,7 @@ services:
       hornet:
         condition: service_healthy
     volumes:
-      - ./public:/public/database
+      - ./data:/app/database
     command:
       - "--inx.address=hornet:9029"
       - "--indexer.db.sqlite.path=database/indexer"
@@ -184,7 +184,7 @@ services:
         soft: 16384
         hard: 16384
     volumes:
-      - ./public:/public/database
+      - ./data:/app/database
     command:
       - "--inx.address=hornet:9029"
       - "--participation.db.path=database/participation"
@@ -233,11 +233,11 @@ services:
       - "traefik.http.routers.hornet-dashboard.entrypoints=web"
       - "traefik.http.services.hornet-dashboard.loadbalancer.server.port=8081"
     volumes:
-      - ./public:/public/
+      - ./data:/app/database
     command:
       - "--inx.address=hornet:9029"
       - "--dashboard.bindAddress=inx-dashboard:8081"
-      - "--dashboard.auth.identityFilePath=/public/identity.key"
+      - "--dashboard.auth.identityFilePath=/app/identity.key"
       - "--dashboard.auth.username=${DASHBOARD_USERNAME:-admin}"
       - "--dashboard.auth.passwordHash=${DASHBOARD_PASSWORD:-0000000000000000000000000000000000000000000000000000000000000000}"
       - "--dashboard.auth.passwordSalt=${DASHBOARD_SALT:-0000000000000000000000000000000000000000000000000000000000000000}"
@@ -269,7 +269,7 @@ services:
     ports:
       - "4000:4000/tcp" # Peering
     volumes:
-      - ./public/wasp:/public/waspdb
+      - ./data/wasp:/app/waspdb
     command:
       - "--logger.level=debug"
       - "--inx.address=hornet:9029"
@@ -353,8 +353,8 @@ services:
   #
   # Nodes
   #
-  hornet-1:
-    container_name: hornet-1
+  edcas-hornet-1:
+    container_name: edcas-hornet-1
     image: iotaledger/hornet:2.0.0-rc.4
     networks:
       peering_net:
@@ -394,14 +394,14 @@ services:
       - 2-nodes
       - 3-nodes
       - 4-nodes
-  hornet-2:
-    container_name: hornet-2
+  edcas-hornet-2:
+    container_name: edcas-hornet-2
     image: iotaledger/hornet:2.0.0-rc.4
     networks:
       peering_net:
         ipv4_address: 172.18.211.12
     depends_on:
-      hornet-1:
+      edcas-hornet-1:
         condition: service_healthy
     ulimits:
       nofile:
@@ -438,14 +438,14 @@ services:
       - 2-nodes
       - 3-nodes
       - 4-nodes
-  hornet-3:
-    container_name: hornet-3
+  edcas-hornet-3:
+    container_name: edcas-hornet-3
     image: iotaledger/hornet:2.0.0-rc.4
     networks:
       peering_net:
         ipv4_address: 172.18.211.13
     depends_on:
-      hornet-1:
+      edcas-hornet-1:
         condition: service_healthy
     ulimits:
       nofile:
@@ -481,14 +481,14 @@ services:
     profiles:
       - 3-nodes
       - 4-nodes
-  hornet-4:
-    container_name: hornet-4
+  edcas-hornet-4:
+    container_name: edcas-hornet-4
     image: iotaledger/hornet:2.0.0-rc.4
     networks:
       peering_net:
         ipv4_address: 172.18.211.14
     depends_on:
-      hornet-1:
+      edcas-hornet-1:
         condition: service_healthy
     ulimits:
       nofile:
@@ -533,7 +533,7 @@ services:
       peering_net:
         ipv4_address: 172.18.211.21
     depends_on:
-      hornet-1:
+      edcas-hornet-1:
         condition: service_healthy
     environment:
       - "COO_PRV_KEYS=651941eddb3e68cb1f6ef4ef5b04625dcf5c70de1fdc4b1c9eadb2c219c074e0ed3c3f1a319ff4e909cf2771d79fece0ac9bd9fd2ee49ea6c0885c9cb3b1248c,0e324c6ff069f31890d496e9004636fd73d8e8b5bea08ec58a4178ca85462325f6752f5f46a53364e2ee9c4d662d762a81efd51010282a75cd6bd03f28ef349c"
@@ -558,7 +558,7 @@ services:
       peering_net:
         ipv4_address: 172.18.211.22
     depends_on:
-      hornet-1:
+      edcas-hornet-1:
         condition: service_healthy
     restart: on-failure
     ports:
@@ -589,7 +589,7 @@ services:
       peering_net:
         ipv4_address: 172.18.211.23
     depends_on:
-      hornet-1:
+      edcas-hornet-1:
         condition: service_healthy
     restart: on-failure
     ports:
@@ -617,7 +617,7 @@ services:
       peering_net:
         ipv4_address: 172.18.211.24
     depends_on:
-      hornet-1:
+      edcas-hornet-1:
         condition: service_healthy
       edcas-inx-indexer:
         condition: service_started
@@ -647,7 +647,7 @@ services:
       peering_net:
         ipv4_address: 172.18.211.25
     depends_on:
-      hornet-1:
+      edcas-hornet-1:
         condition: service_healthy
     restart: on-failure
     ports:
@@ -672,7 +672,7 @@ services:
       peering_net:
         ipv4_address: 172.18.211.26
     depends_on:
-      hornet-1:
+      edcas-hornet-1:
         condition: service_healthy
       edcas-inx-indexer:
         condition: service_started
@@ -720,7 +720,7 @@ services:
       peering_net:
         ipv4_address: 172.18.211.27
     depends_on:
-      hornet-1:
+      edcas-hornet-1:
         condition: service_healthy
     restart: on-failure
     ports:
@@ -742,7 +742,7 @@ services:
       peering_net:
         ipv4_address: 172.18.211.31
     depends_on:
-      hornet-1:
+      edcas-hornet-1:
         condition: service_healthy
     restart: on-failure
     ports:
@@ -773,7 +773,7 @@ services:
       peering_net:
         ipv4_address: 172.18.211.32
     depends_on:
-      hornet-2:
+      edcas-hornet-2:
         condition: service_healthy
     restart: on-failure
     ports:
@@ -804,7 +804,7 @@ services:
       peering_net:
         ipv4_address: 172.18.211.33
     depends_on:
-      hornet-3:
+      edcas-hornet-3:
         condition: service_healthy
     restart: on-failure
     ports:
@@ -834,7 +834,7 @@ services:
       peering_net:
         ipv4_address: 172.18.211.34
     depends_on:
-      hornet-4:
+      edcas-hornet-4:
         condition: service_healthy
     restart: on-failure
     ports:
