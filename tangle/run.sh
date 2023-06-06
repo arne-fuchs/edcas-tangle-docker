@@ -5,6 +5,9 @@ if [ ! -d "privatedb" ]; then
   exit
 fi
 
+mkdir public
+chown 65532:65532 -R public
+
 # first argument must be '3|4' and extra argument must not exist or must start with '-'
 if [[ ($1 = "3" || $1 = "4") && ($2 = "" || $2 = -*) ]]; then
     PROFILE=$1
