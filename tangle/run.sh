@@ -10,11 +10,11 @@ if [[ ($1 = "3" || $1 = "4") && ($2 = "" || $2 = -*) ]]; then
     PROFILE=$1
     # shift arguments to remove profile arg
     shift;
-    docker-compose --profile "$PROFILE-nodes" up $@
+    docker-compose --profile "$PROFILE-nodes" up -d $@
 
 # argument must not exist or must start with '-'
 elif [[ $1 = "" || $1 = -* ]]; then
-    docker-compose --profile "2-nodes" up $@ 
+    docker-compose --profile "2-nodes" up -d $@
 else
   echo "Usage: ./run.sh [3|4] [docker compose up options]"
 fi
