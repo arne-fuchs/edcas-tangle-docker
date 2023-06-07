@@ -149,7 +149,7 @@ services:
       hornet:
         condition: service_healthy
     volumes:
-      - ./data:/app/database
+      - ./data:/app/database:rw
     command:
       - "--inx.address=hornet:9029"
       - "--indexer.db.sqlite.path=database/indexer"
@@ -184,7 +184,7 @@ services:
         soft: 16384
         hard: 16384
     volumes:
-      - ./data:/app/database
+      - ./data:/app/database:rw
     command:
       - "--inx.address=hornet:9029"
       - "--participation.db.path=database/participation"
@@ -226,6 +226,8 @@ services:
     depends_on:
       traefik:
         condition: service_started
+    ports:
+      - "9081:8081/tcp"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.hornet-dashboard.service=hornet-dashboard"
@@ -233,7 +235,7 @@ services:
       - "traefik.http.routers.hornet-dashboard.entrypoints=web"
       - "traefik.http.services.hornet-dashboard.loadbalancer.server.port=8081"
     volumes:
-      - ./data:/app/database
+      - ./data:/app/database:rw
     command:
       - "--inx.address=hornet:9029"
       - "--dashboard.bindAddress=inx-dashboard:8081"
@@ -269,7 +271,7 @@ services:
     ports:
       - "4000:4000/tcp" # Peering
     volumes:
-      - ./data/wasp:/app/waspdb
+      - ./data/wasp:/app/waspdb:rw
     command:
       - "--logger.level=debug"
       - "--inx.address=hornet:9029"
@@ -307,9 +309,9 @@ services:
       - L1_API_URL=http://${NODE_HOST:-localhost}
     profiles:
       - wasp
-#####################################################################
-#                         EDCAS                                     #
-#####################################################################
+  #####################################################################
+  #                         EDCAS                                     #
+  #####################################################################
   create-snapshots:
     container_name: create-snapshots
     image: iotaledger/hornet:2.0.0-rc.4
@@ -752,8 +754,8 @@ services:
     command:
       - "--inx.address=172.18.211.11:9029"
       - "--dashboard.bindAddress=172.18.211.31:8081"
-      - "--dashboard.auth.passwordHash=577eb97f8faf2af47ff957b00827d6bfe9d05b810981e3073dc42553505282c1"
-      - "--dashboard.auth.passwordSalt=e5d8d0bd3bb9723236177b4713a11580c55b69a51e7055dd11fa1dad3b8f6d6c"
+      - "--dashboard.auth.passwordHash=3240af85ebf012f698387e8d14342b8c2693801ffe0ae3134fa2859c2874dc1d"
+      - "--dashboard.auth.passwordSalt=d6f570e89dd28fbf57b5ebcdb319dfdc195c47fe73feba4727afae5210a9efb7"
       - "--dashboard.auth.identityPrivateKey=1f46fad4f538a031d4f87f490f6bca4319dfd0307636a5759a22b5e8874bd608f9156ba976a12918c16a481c38c88a7b5351b769adc30390e93b6c0a63b09b79"
       - "--prometheus.enabled=false"
       - "--prometheus.bindAddress=172.18.211.31:9311"
