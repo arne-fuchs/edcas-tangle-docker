@@ -1,0 +1,48 @@
+{
+  "app": {
+    "checkForUpdates": true,
+    "stopGracePeriod": "5m"
+  },
+  "node": {
+    "alias": "HORNET private-tangle node"
+  },
+  "protocol": {
+    "targetNetworkName": "edcas_network",
+    "milestonePublicKeyCount": 2,
+    "baseToken": {
+      "name": "EDCASToken",
+      "tickerSymbol": "EDCAS",
+      "unit": "EDCAS",
+      "subunit": "edcas",
+      "decimals": 6,
+      "useMetricPrefix": false
+    },
+    "publicKeyRanges": [
+      {"key": "03c198a5431318d319f359c164a9a3ee83431eeaf7b226292b158bbac16bf363","start": 0,"end": 0},{"key": "97d9b0af4fb6fa11d56fa6fb62f49dcdc310606c699d42fd8b03bf0a0016ab5b","start": 0,"end": 0},{"key": "e27e61b4f0e4dcd1f7afe219db596a5d4336ebfaf7cd3fd2c1c71350e829528e","start": 0,"end": 0},{"key": "b8e6fe8279f925e00f0206bd8ea5672fbec58c308ddf0a1950300b146b812d62","start": 0,"end": 0},{"key": "e14656d55270ff875eb7f880060576284234a7ae946f3fa8c2e7b35f74dd347f","start": 0,"end": 0},{"key": "089e498fa82b73cea39707a344f30a7f3b0fdf26a68aaa3d3a895254b80f9962","start": 0,"end": 0},{"key": "f577db0ac105abd5ea70b3a08c3f34dd2f3710fe844a886b1cbe8efe30dd5a2a","start": 0,"end": 0}
+    ]
+  },
+  "db": {
+    "path": "privatedb"
+  },
+  "p2p": {
+    "db": {
+      "path": "p2pstore"
+    }
+  },
+  "snapshots": {
+    "fullPath": "snapshots/full_snapshot.bin",
+    "deltaPath": "snapshots/delta_snapshot.bin",
+    "downloadURLs": []
+  },
+  "restAPI": {
+    "publicRoutes": [
+      "/health",
+      "/api/*"
+    ],
+    "protectedRoutes": [],
+    "pow": {
+      "enabled": true
+    },
+    "debugRequestLoggerEnabled": false
+  }
+}
