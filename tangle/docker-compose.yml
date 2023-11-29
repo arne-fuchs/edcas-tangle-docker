@@ -228,6 +228,20 @@ services:
     profiles:
       - 4-nodes
   #
+  # EDCAS
+  #
+  inx-eddn:
+    container_name: inx-eddn
+    image: frankthefish/inx-eddn:latest
+    environment:
+      - "NODE_URL=https://api.edcas.de:443"
+      - "ZEROMQ_URL=tcp://eddn.edcd.io:9500"
+      - "WALLET_PASSWORD=testwallet"
+      - "WALLET_PATH=wallet/wallet.stronghold"
+      - "NUM_OF_WORKERS=4"
+    volumes:
+      - ./inx-eddn/wallet:/app/wallet
+  #
   # INX
   # 
   inx-coordinator:

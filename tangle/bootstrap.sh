@@ -49,6 +49,8 @@ cp -R snapshots/hornet-1 snapshots/hornet-4
 if [[ "$OSTYPE" != "darwin"* ]]; then
   chown -R 65532:65532 snapshots
 fi
+# Prepare edcas
+mkdir -p inx-eddn/wallet
 
 # Prepare database directory
 mkdir -p privatedb/indexer
