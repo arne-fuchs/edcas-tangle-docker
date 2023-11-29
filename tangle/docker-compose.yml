@@ -54,6 +54,22 @@ services:
       - "--cooStatePath=/app/state/coordinator.state"
     profiles:
       - bootstrap
+  generate_public_key:
+    container_name: inx-eddn
+    image: frankthefish/inx-eddn:latest
+    environment:
+      - "NODE_URL=https://api.edcas.de:443"
+      - "ZEROMQ_URL=tcp://eddn.edcd.io:9500"
+      - "WALLET_PASSWORD=testwallet"
+      - "WALLET_PATH=wallet/wallet.stronghold"
+      - "NUM_OF_WORKERS=4"
+      - "KEY_SAVE_LOCATION=public_key/public_key"
+    command:
+      - "./inx-eddn"
+      - "--saveKey"
+    volumes:
+      - ./inx-eddn/wallet:/app/wallet
+      - ./inx-eddn/public_key:/app/public_key
   #
   # Nodes
   #

@@ -51,6 +51,9 @@ if [[ "$OSTYPE" != "darwin"* ]]; then
 fi
 # Prepare edcas
 mkdir -p inx-eddn/wallet
+mkdir -p inx-eddn/public_key
+
+docker compose run generate_public_key
 
 # Prepare database directory
 mkdir -p privatedb/indexer
