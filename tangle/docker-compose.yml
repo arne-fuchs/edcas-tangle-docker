@@ -255,6 +255,7 @@ services:
       - "WALLET_PASSWORD=testwallet"
       - "WALLET_PATH=wallet/wallet.stronghold"
       - "NUM_OF_WORKERS=4"
+    restart: always
     volumes:
       - ./inx-eddn/wallet:/app/wallet
   #
