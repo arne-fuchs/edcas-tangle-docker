@@ -19,12 +19,13 @@ are:
      POSTGRES_USER=
      POSTGRES_PASSWORD=
      ```
+   - create an empty .public_key_env file
 3. Run:
    - `./run.sh` to run 2 nodes + COO.
    - `./run.sh 3` to run 3 nodes + COO.
    - `./run.sh 4` to run 4 nodes + COO.
 
-3. `./cleanup.sh` to clean up all generated files and start over. 
+4. `./cleanup.sh` to clean up all generated files and start over. 
 
 
 ## Start the coordinator in case of failure
