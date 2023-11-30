@@ -10,3 +10,4 @@ docker compose down --remove-orphans
 rm -Rf privatedb
 rm -Rf snapshots
 rm -Rf inx-eddn
+rm -Rf postgres

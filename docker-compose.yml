@@ -38,8 +38,8 @@ services:
     networks:
       peering_net:
         ipv4_address: 172.18.211.11
-    environment:
-      - "COO_PRV_KEYS=ea6e77ad7aa63c6c6672549ff411839f6f57923c71f2eaab8e154b3e26d66e3903c198a5431318d319f359c164a9a3ee83431eeaf7b226292b158bbac16bf363,561e5a2cbcc2d3dd4d08dbe90da635f786f04e5903246e7cd15f3871cba5279097d9b0af4fb6fa11d56fa6fb62f49dcdc310606c699d42fd8b03bf0a0016ab5b,85c83c9449f05e8476ad38c3db173cf1a6f59560f9a7a3eb17370d69e4ad951ce27e61b4f0e4dcd1f7afe219db596a5d4336ebfaf7cd3fd2c1c71350e829528e,1f9a0e19878fb94df41ad9f00aa858afd5848cffdf48c4def6f919cc6ccf2e15b8e6fe8279f925e00f0206bd8ea5672fbec58c308ddf0a1950300b146b812d62,985942b408ce452393aa4d6b25a943c626eaa9eb0178187d3677675bcc180344e14656d55270ff875eb7f880060576284234a7ae946f3fa8c2e7b35f74dd347f,677210871e78d60d124611df7e0cfde59a001e3b1e657a7a65df1f21ea15cedd089e498fa82b73cea39707a344f30a7f3b0fdf26a68aaa3d3a895254b80f9962,03773c003b767f296435685a84f1aea4d28a8ba80d1be641b5daea6e9db980e2f577db0ac105abd5ea70b3a08c3f34dd2f3710fe844a886b1cbe8efe30dd5a2a"
+    env_file:
+      - ".coordinator_env"
     volumes:
       - ./config_hornet.json:/app/config_hornet.json:ro
       - ./snapshots/hornet-1:/app/snapshots
@@ -258,6 +258,39 @@ services:
     restart: always
     volumes:
       - ./inx-eddn/wallet:/app/wallet
+  postgres:
+    image: 'postgres:latest'
+    env_file:
+      - .postgres_env
+    ports:
+      - "5432:5432"
+    environment:
+      - "POSTGRES_DB=edcas"
+    networks:
+      peering_net:
+        ipv4_address: 172.18.211.40
+    volumes:
+      - ./postgres/:/var/lib/postgresql/data/
+  inx-edcas-indexer:
+    container_name: inx-edcas-indexer
+    image: frankthefish/inx-edcas-indexer:latest
+    env_file:
+      - .postgres_env
+      - .public_key_env
+    environment:
+      - "NODE_URL=https://api.edcas.de:443"
+      - "NUM_OF_WORKERS=4"
+      - "DATABASE_PORT=5432"
+      - "DATABASE_HOST=172.18.211.40"
+      - "DATABASE_NAME=edcas"
+      - "TAGS=EDDN,SCAN,FSDJUMP,LOCATION,CARRIERJUMP,FSSBODYSIGNALS,SAASIGNALSFOUND"
+    networks:
+      peering_net:
+        ipv4_address: 172.18.211.41
+    restart: always
+    volumes:
+      - ./inx-eddn/wallet:/app/wallet
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
   #
   # INX
   # 
@@ -270,8 +303,8 @@ services:
     depends_on:
       hornet-1:
         condition: service_healthy
-    environment:
-      - "COO_PRV_KEYS=ea6e77ad7aa63c6c6672549ff411839f6f57923c71f2eaab8e154b3e26d66e3903c198a5431318d319f359c164a9a3ee83431eeaf7b226292b158bbac16bf363,561e5a2cbcc2d3dd4d08dbe90da635f786f04e5903246e7cd15f3871cba5279097d9b0af4fb6fa11d56fa6fb62f49dcdc310606c699d42fd8b03bf0a0016ab5b,85c83c9449f05e8476ad38c3db173cf1a6f59560f9a7a3eb17370d69e4ad951ce27e61b4f0e4dcd1f7afe219db596a5d4336ebfaf7cd3fd2c1c71350e829528e,1f9a0e19878fb94df41ad9f00aa858afd5848cffdf48c4def6f919cc6ccf2e15b8e6fe8279f925e00f0206bd8ea5672fbec58c308ddf0a1950300b146b812d62,985942b408ce452393aa4d6b25a943c626eaa9eb0178187d3677675bcc180344e14656d55270ff875eb7f880060576284234a7ae946f3fa8c2e7b35f74dd347f,677210871e78d60d124611df7e0cfde59a001e3b1e657a7a65df1f21ea15cedd089e498fa82b73cea39707a344f30a7f3b0fdf26a68aaa3d3a895254b80f9962,03773c003b767f296435685a84f1aea4d28a8ba80d1be641b5daea6e9db980e2f577db0ac105abd5ea70b3a08c3f34dd2f3710fe844a886b1cbe8efe30dd5a2a"
+    env_file:
+      - .coordinator_env
     ports:
       - "6021:6060/tcp"
     volumes:
@@ -345,36 +378,6 @@ services:
       - 2-nodes
       - 3-nodes
       - 4-nodes
-  inx-faucet:
-    container_name: inx-faucet
-    image: iotaledger/inx-faucet:1.0-rc
-    networks:
-      peering_net:
-        ipv4_address: 172.18.211.24
-    depends_on:
-      hornet-1:
-        condition: service_healthy
-      inx-indexer:
-        condition: service_started
-    restart: on-failure
-    ports:
-      - "8091:8091/tcp"
-      - "6024:6060/tcp"
-    environment:
-      - "FAUCET_PRV_KEY=887844b1e6bf9ca9e0b57584656add4370dbb49a8cb79e2e3032229f30fd80359e3df559ad0de8e5fa019b9ea46d1ee40879f3f3f74594a3306de9dfd43dcd25"
-    command:
-      - "--inx.address=172.18.211.11:9029"
-      - "--faucet.bindAddress=172.18.211.24:8091"
-      - "--faucet.amount=100000000000"
-      - "--faucet.smallAmount=10000000000"
-      - "--faucet.maxAddressBalance=200000000000"
-      - "--faucet.rateLimit.enabled=false"
-      - "--profiling.enabled=true"
-      - "--profiling.bindAddress=172.18.211.24:6060"
-    profiles:
-      - 2-nodes
-      - 3-nodes
-      - 4-nodes
   inx-participation:
     container_name: inx-participation
     image: iotaledger/inx-participation:1.0-rc
@@ -396,54 +399,6 @@ services:
       - "--participation.db.path=/app/database"
       - "--profiling.enabled=true"
       - "--profiling.bindAddress=172.18.211.25:6060"
-    profiles:
-      - 2-nodes
-      - 3-nodes
-      - 4-nodes
-  inx-spammer:
-    container_name: inx-spammer
-    image: iotaledger/inx-spammer:1.0-rc
-    networks:
-      peering_net:
-        ipv4_address: 172.18.211.26
-    depends_on:
-      hornet-1:
-        condition: service_healthy
-      inx-indexer:
-        condition: service_started
-    restart: on-failure
-    ports:
-      - "9326:9311/tcp"
-      - "9092:9092/tcp"
-      - "6026:6060/tcp"
-    environment:
-      - "SPAMMER_MNEMONIC=reward addict anger tongue denial supply cattle lawn foot climb ask friend base spring ensure spike alien equal burst bitter crowd august ignore animal"
-    command:
-      - "--inx.address=172.18.211.11:9029"
-      - "--restAPI.bindAddress=172.18.211.26:9092"
-      - "--spammer.autostart=true"
-      - "--spammer.bpsRateLimit=50"
-      - "--spammer.cpuMaxUsage=0.0"
-      - "--spammer.workers=0"
-      - "--spammer.valueSpam.enabled=true"
-      - "--spammer.valueSpam.sendBasicOutput=true"
-      - "--spammer.valueSpam.collectBasicOutput=true"
-      - "--spammer.valueSpam.createAlias=true"
-      - "--spammer.valueSpam.destroyAlias=true"
-      - "--spammer.valueSpam.createFoundry=true"
-      - "--spammer.valueSpam.destroyFoundry=true"
-      - "--spammer.valueSpam.mintNativeToken=true"
-      - "--spammer.valueSpam.meltNativeToken=true"
-      - "--spammer.valueSpam.createNFT=true"
-      - "--spammer.valueSpam.destroyNFT=true"
-      - "--prometheus.enabled=true"
-      - "--prometheus.bindAddress=172.18.211.26:9311"
-      - "--prometheus.spammerMetrics=true"
-      - "--prometheus.goMetrics=false"
-      - "--prometheus.processMetrics=false"
-      - "--prometheus.promhttpMetrics=false"
-      - "--profiling.enabled=true"
-      - "--profiling.bindAddress=172.18.211.26:6060"
     profiles:
       - 2-nodes
       - 3-nodes

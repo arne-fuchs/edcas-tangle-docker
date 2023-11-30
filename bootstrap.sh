@@ -54,6 +54,9 @@ mkdir -p inx-eddn/wallet
 mkdir -p inx-eddn/public_key
 
 docker compose run generate_public_key
+rm .public_key_env
+cp inx-eddn/public_key/public_key .public_key_env
+mkdir -p postgres
 
 # Prepare database directory
 mkdir -p privatedb/indexer
@@ -63,13 +66,4 @@ mkdir -p privatedb/hornet-3
 mkdir -p privatedb/hornet-4
 if [[ "$OSTYPE" != "darwin"* ]]; then
   chown -R 65532:65532 privatedb
-fi
-
-mkdir -p data
-mkdir -p data/grafana
-mkdir -p data/prometheus
-mkdir -p data/dashboard
-mkdir -p data/wasp
-if [[ "$OSTYPE" != "darwin"* ]]; then
-  chown -R 65532:65532 data
 fi
