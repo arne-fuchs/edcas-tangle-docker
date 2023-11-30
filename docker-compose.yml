@@ -250,7 +250,7 @@ services:
     container_name: inx-eddn
     image: frankthefish/inx-eddn:latest
     environment:
-      - "NODE_URL=https://api.edcas.de:443"
+      - "NODE_URL=https://api.edcas.de"
       - "ZEROMQ_URL=tcp://eddn.edcd.io:9500"
       - "WALLET_PASSWORD=testwallet"
       - "WALLET_PATH=wallet/wallet.stronghold"
@@ -276,7 +276,7 @@ services:
       - .postgres_env
       - .public_key_env
     environment:
-      - "NODE_URL=https://api.edcas.de:443"
+      - "NODE_URL=https://api.edcas.de"
       - "NUM_OF_WORKERS=4"
       - "DATABASE_PORT=5432"
       - "DATABASE_HOST=172.18.211.40"
