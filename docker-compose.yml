@@ -282,9 +282,6 @@ services:
       - "DATABASE_HOST=172.18.211.40"
       - "DATABASE_NAME=edcas"
       - "TAGS=EDDN,SCAN,FSDJUMP,LOCATION,CARRIERJUMP,FSSBODYSIGNALS,SAASIGNALSFOUND"
-    networks:
-      peering_net:
-        ipv4_address: 172.18.211.41
     restart: always
     volumes:
       - ./inx-eddn/wallet:/app/wallet
