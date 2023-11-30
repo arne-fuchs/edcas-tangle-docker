@@ -280,8 +280,8 @@ services:
     environment:
       - "NODE_URL=https://api.edcas.de"
       - "NUM_OF_WORKERS=4"
-      - "DATABASE_PORT=5432"
-      - "DATABASE_HOST=172.18.211.40"
+      - "DATABASE_PORT=15432"
+      - "DATABASE_HOST=127.0.0.1"
       - "DATABASE_NAME=edcas"
       - "TAGS=EDDN,SCAN,FSDJUMP,LOCATION,CARRIERJUMP,FSSBODYSIGNALS,SAASIGNALSFOUND"
     restart: always
