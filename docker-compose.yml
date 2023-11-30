@@ -55,7 +55,7 @@ services:
     profiles:
       - bootstrap
   generate_public_key:
-    container_name: inx-eddn
+    container_name: generate_public_key
     image: frankthefish/inx-eddn:latest
     environment:
       - "NODE_URL=https://api.edcas.de:443"
