@@ -33,11 +33,11 @@ fi
 
 # Coordinator
 echo "Running create-snapshots"
-COMPOSE_PROFILES=snapshots docker compose run create-snapshots
+docker compose run create-snapshots
 
 echo "Running bootstrap"
 # Bootstrap network (create hornet database, create genesis milestone, create coo state)
-COMPOSE_PROFILES=bootstrap docker compose run bootstrap-network
+docker compose run bootstrap-network
 
 
 # Prepare edcas

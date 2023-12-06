@@ -43,7 +43,7 @@
 # Coordinator       #
 #####################
 # Only needs to be setup if you want to host an own network, not if you want to connect to an existing one
-# COMPOSE_PROFILES=${COMPOSE_PROFILES},coor
+# COMPOSE_PROFILES=${COMPOSE_PROFILES},coor,snapshots,bootstrap
 # COO_PRV_KEYS=
 
 HORNET_CONFIG_FILE=config_edcas.json

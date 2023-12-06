@@ -28,7 +28,7 @@
     "alias": "HORNET EDCAS Node"
   },
   "protocol": {
-    "targetNetworkName": "edcas_network",
+    "targetNetworkName": "edcas_tangle",
     "milestonePublicKeyCount": 2,
     "baseToken": {
       "name": "EDCASToken",
@@ -95,8 +95,8 @@
     "enabled": false,
     "depth": 50,
     "interval": 200,
-    "fullPath": "mainnet/snapshots/full_snapshot.bin",
-    "deltaPath": "mainnet/snapshots/delta_snapshot.bin",
+    "fullPath": "data/snapshots/full_snapshot.bin",
+    "deltaPath": "data/snapshots/delta_snapshot.bin",
     "deltaSizeThresholdPercentage": 50,
     "deltaSizeThresholdMinSize": "50M",
     "downloadURLs": [
