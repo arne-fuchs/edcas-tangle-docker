@@ -57,16 +57,6 @@ HORNET_CONFIG_FILE=config_edcas.json
 # WARNING: Do not forget to set a new password after the first start (default: admin/admin)
 #COMPOSE_PROFILES=${COMPOSE_PROFILES},monitoring
 
-# Uncomment the following line to enable the API endpoint for historical data of the legacy network.
-# Legacy API will be available under <NODE_HOST>/api/core/v0
-# You need to provide a legacy database under "data/database_legacy/". (Subfolders: "snapshot", "spent", "tangle")
-#COMPOSE_PROFILES=${COMPOSE_PROFILES},history-legacy
-
-# Uncomment the following line to enable the API endpoint for historical data of the chrysalis network.
-# Chrysalis API will be available under <NODE_HOST>/api/core/v1
-# You need to provide a chrysalis database under "data/database_chrysalis/". (Subfolders: "tangle", "utxo")
-#COMPOSE_PROFILES=${COMPOSE_PROFILES},history-chrysalis
-
 # Uncomment the following line to enable wasp
 # WASP API will be available under <NODE_HOST>/wasp/api
 # WASP Dashboard will be available under <NODE_HOST>/wasp/dashboard
