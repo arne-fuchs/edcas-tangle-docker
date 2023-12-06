@@ -101,8 +101,7 @@
     "deltaSizeThresholdMinSize": "50M",
     "downloadURLs": [
       {
-        "full": "https://files.stardust-mainnet.iotaledger.net/snapshots/latest-full_snapshot.bin",
-        "delta": "https://files.stardust-mainnet.iotaledger.net/snapshots/latest-delta_snapshot.bin"
+        "full": "https://edcas.de/snapshots/full_snapshot.bin"
       }
     ]
   },
