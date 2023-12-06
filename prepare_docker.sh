@@ -31,15 +31,16 @@ if [[ "$OSTYPE" != "darwin"* ]]; then
   chown 65532:65532 peering.json
 fi
 
+# Only uncomment this if you want to setup your own network
 # Coordinator
-echo "Running create-snapshots"
-docker compose run create-snapshots
+#echo "Running create-snapshots"
+#docker compose run create-snapshots
 
-echo "Running bootstrap"
+#echo "Running bootstrap"
 # Bootstrap network (create hornet database, create genesis milestone, create coo state)
-docker compose run bootstrap-network
+#docker compose run bootstrap-network
 
-
+#Comment this if you only want to validate network
 # Prepare edcas
 mkdir -p inx-eddn/wallet
 mkdir -p inx-eddn/public_key
