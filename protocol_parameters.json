@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "networkName": "edcas_network",
+  "networkName": "edcas_tangle",
   "bech32HRP": "edcas",
   "minPoWScore": 2,
   "belowMaxDepth": 15,

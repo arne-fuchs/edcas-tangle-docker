@@ -1,4 +1,5 @@
 /edcas-tangle-docker.iml
 /.idea
-.*_env
+.*env
 *.txt
+keys

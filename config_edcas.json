@@ -15,6 +15,9 @@
     "disableStacktrace": false,
     "stacktraceLevel": "panic",
     "encoding": "console",
+    "encodingConfig": {
+      "timeEncoder": "rfc3339"
+    },
     "outputPaths": [
       "stdout"
     ],
@@ -22,75 +25,26 @@
   },
   "node": {
     "profile": "auto",
-    "alias": "HORNET node"
+    "alias": "HORNET EDCAS Node"
   },
   "protocol": {
-    "targetNetworkName": "shimmer",
-    "milestonePublicKeyCount": 7,
+    "targetNetworkName": "edcas_network",
+    "milestonePublicKeyCount": 2,
     "baseToken": {
-      "name": "Shimmer",
-      "tickerSymbol": "SMR",
-      "unit": "SMR",
-      "subunit": "glow",
+      "name": "EDCASToken",
+      "tickerSymbol": "EDCAS",
+      "unit": "EDCAS",
+      "subunit": "edcas",
       "decimals": 6,
       "useMetricPrefix": false
     },
     "publicKeyRanges": [
-      {
-        "key": "a507d2a592a5f0424ed8530603c08acebe088ae26211e90b79bfec0970a2397f",
-        "start": 0,
-        "end": 0
-      },
-      {
-        "key": "71a09774449a081450a51e0245a1e9850190f93508fd8f21bb9b9ca169765f30",
-        "start": 0,
-        "end": 0
-      },
-      {
-        "key": "a375515bfe5adf7fedb64ef4cebe1e621e85a056b0ccd5db72bc0d474325bf38",
-        "start": 0,
-        "end": 0
-      },
-      {
-        "key": "1df26178a7914126fd8cb934c7a7437073794c1c8ce99319172436b1d4973eba",
-        "start": 0,
-        "end": 0
-      },
-      {
-        "key": "45432d7c767e16586403262331a725c7eaa0b2dd79ea442f373c845ae3443aa9",
-        "start": 0,
-        "end": 0
-      },
-      {
-        "key": "9d87b4d2538b10799b582e25ace4726d92d7798ddfb696ff08e450db7917c9ad",
-        "start": 0,
-        "end": 0
-      },
-      {
-        "key": "a921841628d64c3f08bd344118b8106ade072e68c774beff30135e036194493a",
-        "start": 0,
-        "end": 0
-      },
-      {
-        "key": "16ee3356c21e410a0aaab42896021b1a857eb8d97a14a66fed9b13d634c21317",
-        "start": 0,
-        "end": 0
-      },
-      {
-        "key": "99c7d9752c295cb56b550191015ab5a40226fb632e8b02ec15cfe574ea17cf67",
-        "start": 0,
-        "end": 0
-      },
-      {
-        "key": "4af647910ba47000108b87c63abe0545643f9b203eacee2b713729b0450983fe",
-        "start": 0,
-        "end": 0
-      }
+      {"key": "75fb36e5ead9a1349f6366dc9b86918f9bccbeceb9fee83b6c80df53889c0888","start": 0,"end": 0},{"key": "96ffd6bdbd7b4aa601b21d29af456080c74ea88a819652d96f1b26586e1997c4","start": 0,"end": 0},{"key": "db3af75e193a71872516b68e4c12aaf792bd46f0443142326e3829cd173aa6fe","start": 0,"end": 0},{"key": "e8484d3c3a86dd41b71470412fd947167de6762a8cdb05fbfaf4598fc4c1e96b","start": 0,"end": 0},{"key": "4a04ec4d5b9a47fca46c675637b84089b13cfb6913a869da808db2d9b03e9979","start": 0,"end": 0},{"key": "a0e16c4bb241ef317de468c228eccba581509ad98df8b58eb3b6eef8a47d733e","start": 0,"end": 0},{"key": "1c77a0faca076cb345429a843162f855047380154c8fa6c68ea171457e9e9e26","start": 0,"end": 0}
     ]
   },
   "db": {
     "engine": "rocksdb",
-    "path": "shimmer/database",
+    "path": "mainnet/database",
     "autoRevalidation": false,
     "checkLedgerStateOnStartup": false
   },
@@ -108,7 +62,7 @@
     },
     "identityPrivateKey": "",
     "db": {
-      "path": "shimmer/p2pstore"
+      "path": "mainnet/p2pstore"
     },
     "reconnectInterval": "30s",
     "gossip": {
@@ -117,11 +71,11 @@
       "streamWriteTimeout": "10s"
     },
     "autopeering": {
-      "enabled": true,
+      "enabled": false,
       "bindAddress": "0.0.0.0:14626",
       "entryNodes": [
-        "/dns/entry-hornet-0.h.shimmer.network/udp/14626/autopeering/HK6EKbNtjwve9HMbL6PH6R3uLXZYQoBoqNPD5LsoWuA6",
-        "/dns/entry-hornet-1.h.shimmer.network/udp/14626/autopeering/BT8EiSRXTixnH2wMoy4ecNpVtiAXxfXKfYsJ2KvU3WLx"
+        "/dns/entry-hornet-0.h.stardust-mainnet.iotaledger.net/udp/14626/autopeering/K4cHM64KxzYJ5ZB2a9P3stJUHjvQDh4bzhCw49xDowi",
+        "/dns/entry-hornet-1.h.stardust-mainnet.iotaledger.net/udp/14626/autopeering/8UbVu5MjRZH2c9fnEdpfPvd7qqDgrVFsNsvc933FuMTm"
       ],
       "entryNodesPreferIPv6": false,
       "runAsEntryNode": false
@@ -141,14 +95,14 @@
     "enabled": false,
     "depth": 50,
     "interval": 200,
-    "fullPath": "shimmer/snapshots/full_snapshot.bin",
-    "deltaPath": "shimmer/snapshots/delta_snapshot.bin",
+    "fullPath": "mainnet/snapshots/full_snapshot.bin",
+    "deltaPath": "mainnet/snapshots/delta_snapshot.bin",
     "deltaSizeThresholdPercentage": 50,
     "deltaSizeThresholdMinSize": "50M",
     "downloadURLs": [
       {
-        "full": "https://files.shimmer.network/snapshots/latest-full_snapshot.bin",
-        "delta": "https://files.shimmer.network/snapshots/latest-delta_snapshot.bin"
+        "full": "https://files.stardust-mainnet.iotaledger.net/snapshots/latest-full_snapshot.bin",
+        "delta": "https://files.stardust-mainnet.iotaledger.net/snapshots/latest-delta_snapshot.bin"
       }
     ]
   },
@@ -159,7 +113,7 @@
     },
     "size": {
       "enabled": true,
-      "targetSize": "500GB",
+      "targetSize": "30GB",
       "thresholdPercentage": 10,
       "cooldownTime": "5m"
     },
@@ -198,8 +152,8 @@
       "salt": "HORNET"
     },
     "pow": {
-      "enabled": true,
-      "workerCount": 4
+      "enabled": false,
+      "workerCount": 1
     },
     "limits": {
       "maxBodyLength": "1M",
@@ -223,25 +177,6 @@
       "maxChildren": 2
     }
   },
-  "receipts": {
-    "enabled": false,
-    "backup": {
-      "enabled": false,
-      "path": "receipts"
-    },
-    "validator": {
-      "validate": false,
-      "ignoreSoftErrors": false,
-      "api": {
-        "address": "http://localhost:14266",
-        "timeout": "5s"
-      },
-      "coordinator": {
-        "address": "UDYXTZBE9GZGPM9SSQV9LTZNDLJIZMPUVVXYXFYVBLIEUHLSEWFTKZZLXYRHHWVQV9MNNX9KZC9D9UZWZ",
-        "merkleTreeDepth": 24
-      }
-    }
-  },
   "prometheus": {
     "enabled": false,
     "bindAddress": "localhost:9311",
@@ -263,10 +198,10 @@
     "promhttpMetrics": false
   },
   "inx": {
-    "enabled": true,
+    "enabled": false,
     "bindAddress": "localhost:9029",
     "pow": {
-      "workerCount": 4
+      "workerCount": 0
     }
   },
   "debug": {
