@@ -144,7 +144,7 @@ services:
 
   inx-indexer:
     container_name: inx-indexer
-    image: iotaledger/inx-indexer:1.0
+    image: iotaledger/inx-indexer:1.0.1
     stop_grace_period: 5m
     restart: unless-stopped
     depends_on:
